@@ -12,15 +12,30 @@ export default class Board extends Component {
             return;
         }
 
+
+
         console.log("before change box clicked is", id)
         
         console.log("square you got is", squaresFromApp)
         squaresFromApp[id] = this.props.isXNext? 'X':'O'
         console.log("after change", squaresFromApp)
+
+        this.props.setTheState({
+            squares: squaresFromApp, 
+            isXNext: !this.props.isXNext,
+            history: [...this.props.history, 
+                {
+                    squares: squaresFromApp.slice(), 
+                    isXNext: !this.props.isXNext
+                }]
+        })
+
         //this.setState({squares: squaresFromApp, isXNext: !this.props.isXNext}) //why this doens't work?
 
-        this.props.setTheState({squares: squaresFromApp, isXNext: !this.props.isXNext})
 
+        // let array = this.props.history
+        // array = array.concat({squares:squaresFromApp.slice(), isXNext: !this.props.isXNext})
+    
     }
 
     calculateWinner = (squares) => {
@@ -49,14 +64,24 @@ export default class Board extends Component {
     render() {
         let status = ''
         let winner = this.calculateWinner(this.props.squares)
-        
+        let numOfMove=0;
+
+        for(let i=0; i<9; i++) {
+            if (this.props.squares[i]) {
+                numOfMove++;
+            }
+
+        }
+
         if (winner) {
             status = `The winner is: ${winner}`
-        } else {
+           
+        } else if (numOfMove>=8) {
+            status = `Tie game!`
+       } else {
             status = `Next player: ${this.props.isXNext? 'Orange' : 'Avocado'}`
         }
 
-        
         return (
             <div>
                 <h2>{status}</h2>

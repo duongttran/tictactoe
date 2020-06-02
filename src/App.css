@@ -14,3 +14,12 @@
   display: flex;
 }
 
+.main-stage {
+  display: flex;
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+}
+
