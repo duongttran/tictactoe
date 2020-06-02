@@ -1,0 +1,16 @@
+.box {
+  width: 200px;
+  height: 200px;
+  border: white 1px solid;
+  font-size: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: orange;
+  background-color: rgb(255, 227, 136)
+}
+
+.row {
+  display: flex;
+}
+
