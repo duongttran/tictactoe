@@ -1,3 +1,15 @@
+body {
+  font-family: 'Nanum Pen Script', cursive;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
 .box {
   width: 200px;
   height: 200px;
@@ -5,9 +17,13 @@
   font-size: 70px;
   display: flex;
   justify-content: center;
-  align-items: center;
+ 
   color: orange;
-  background-color: rgb(255, 227, 136)
+  background-color: #f2f2f2;
+}
+
+.board {
+  margin: 0 20px;
 }
 
 .row {
@@ -16,10 +32,44 @@
 
 .main-stage {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .history {
   display: flex;
   flex-direction: column;
+}
+
+.history-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 700px;
+  width: 350px;
+  
+}
+
+button {
+  background-color: lightseagreen;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  min-width: 100px;
+  margin: 3px;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 23px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: .5s;
+}
+
+button:hover {
+  background-color: yellowgreen;
+  transition: .5s;
+}
+
+button:focus {
+  background-color: gold;
 }
 

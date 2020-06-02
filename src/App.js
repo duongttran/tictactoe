@@ -43,10 +43,12 @@ export default class App extends Component {
     console.log("history is ", this.state.history)
     return (
       <div className="main-stage">
-        <Board {...this.state} setTheState={this.setTheState} />
-        <div>History</div>
+        <div className="board"><Board {...this.state} setTheState={this.setTheState}/></div>
         <div className="history">
-          {this.state.history.map((item, idx) => <div><button onClick={() => this.timeTravel(idx)}>Move {idx}</button></div>)}
+          <h2>History</h2>
+          <div className="history-list">
+            {this.state.history.map((item, idx) => <div><button onClick={() => this.timeTravel(idx)}>Move {idx}</button></div>)}
+          </div>
         </div>
       </div>
     )

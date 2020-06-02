@@ -12,8 +12,6 @@ export default class Board extends Component {
             return;
         }
 
-
-
         console.log("before change box clicked is", id)
         
         console.log("square you got is", squaresFromApp)
@@ -70,7 +68,6 @@ export default class Board extends Component {
             if (this.props.squares[i]) {
                 numOfMove++;
             }
-
         }
 
         if (winner) {
@@ -79,7 +76,7 @@ export default class Board extends Component {
         } else if (numOfMove>=8) {
             status = `Tie game!`
        } else {
-            status = `Next player: ${this.props.isXNext? 'Orange' : 'Avocado'}`
+            status = `Next player: ${this.props.isXNext? 'X' : 'O'}`
         }
 
         return (
