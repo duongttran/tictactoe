@@ -18,8 +18,11 @@ export default class App extends Component {
       topRank: [],
       //user: null,
       login: false,
-      facebookData:null
+      facebookData: null,
+      winner: null, 
+      dataFromServer: []
     }
+    this.getDataFromServer();
   }
 
   responseFacebook = (response) => {
@@ -33,6 +36,7 @@ export default class App extends Component {
 
   setTheState = (obj) => {
     this.setState(obj)
+   
   }
 
 
@@ -49,9 +53,10 @@ export default class App extends Component {
 
   sendDataToServer = async() => {
     let data = new URLSearchParams();
-    data.append("player", this.state.facebookData.name);
-    data.append("score", "TIME_ELAPSED_IN_SECONDS");
-    const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
+    const name = this.state.facebookData ? this.state.facebookData.name : "anonymous";
+    data.append("player", name);
+    data.append("score", 10);
+    const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -62,24 +67,49 @@ export default class App extends Component {
     });
 }
 
+getDataFromServer = async () => {
+  const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
+  const response = await fetch(url, {
+      method: "GET"
+  });
+  const data = await response.json();
+console.log("this is data get from server", data)
+this.setState({dataFromServer: data});
+}
+
+
 
   render() {
     console.log("history is ", this.state.history)
-    return (
-      <div className="main-stage">
-        <div className="board"><Board {...this.state} setTheState={this.setTheState} /></div>
-        <div className="history">
-          <h2>History</h2>
-          <div className="history-list">
-            {this.state.history.map((item, idx) => <div><button onClick={() => this.timeTravel(idx)}>Move {idx}</button></div>)}
+
+
+    // If user has loggedin
+    if (this.state.login && this.state.facebookData) {
+      return (
+        <div className="main-stage">
+          <div className="board"><Board {...this.state} setTheState={this.setTheState} sendDataFromApp={()=>this.sendDataToServer()} /></div>
+          <div className="history">
+            <h2>History</h2>
+            <div className="history-list">
+              {this.state.history.map((item, idx) => <div><button onClick={() => this.timeTravel(idx)}>Move {idx}</button></div>)}
+            </div>
           </div>
+          <div>
+            <h3>Scores from other players</h3>
+      {this.state.dataFromServer.items.map(item => <div><h3>{item.player}</h3><p>{item.score}</p></div>)}
+          </div>
+
+          <div className="App">
+
+              <div> <h1>{this.state.facebookData.name}</h1><img src={this.state.facebookData.picture.data.url}></img></div>
+
+
+          </div>
+
         </div>
-
-        <div className="App">
-
-          {
-            this.state.facebookData && this.state.login ?<div> <h1>{this.state.facebookData.name}</h1><img src={this.state.facebookData.picture.data.url}></img></div>:
-            <FacebookLogin
+      )
+          } else {
+            return <FacebookLogin
             
               appId={apiKey}
               autoLoad={false}
@@ -89,11 +119,5 @@ export default class App extends Component {
               icon="fa-facebook"
             />
           }
-
-
-        </div>
-
-      </div>
-    )
   }
 }

@@ -11,8 +11,8 @@ export default class Board extends Component {
         // currentPointer++;
 
         let squaresFromApp = this.props.squares
-        if (this.calculateWinner(squaresFromApp) || squaresFromApp[id]) {
-         
+
+        if (this.props.winner || squaresFromApp[id]) {
             return;
         }
 
@@ -34,6 +34,8 @@ export default class Board extends Component {
         })
 
         console.log("show this.props.setTheState", this.props.setTheState)
+
+        this.calculateWinner(squaresFromApp);
 
         //this.setState({squares: squaresFromApp, isXNext: !this.props.isXNext}) //why this doens't work?
 
@@ -58,10 +60,12 @@ export default class Board extends Component {
         for (let i = 0; i < lines.length; i++) {
             const [a, b, c] = lines[i];
             if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                console.log("here is the winner", squares[a])
-                
+               
+                this.props.setTheState({ winner: squares[a] })
                 // why winner render twice?
-                return squares[a];
+                //return squares[a];
+                this.props.sendDataFromApp()
+                return
             }
 
         }
@@ -72,7 +76,7 @@ export default class Board extends Component {
 
     render() {
         let status = ''
-        let winner = this.calculateWinner(this.props.squares)
+        let winner = this.props.winner
         let numOfMove = 0;
 
         for (let i = 0; i < 9; i++) {
